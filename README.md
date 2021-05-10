@@ -187,6 +187,7 @@ sc.close();					// Quando não precisar mais do objeto sc
 | Math.sqrt(x) | __Raiz Quadrada__ de x|
 | Math.pow(x,y) | x elevado a yº __Potência__ |
 | Math.abs(x) | x Absoluto (__Módulo__) |
+| Math.PI | Valor da constante __PI__ |
 
 [Mais Info](https://docs.oracle.com/javase/8/docs/api/java/lang/Math.html)
 
@@ -305,7 +306,7 @@ else if (condição){
 
 ### Aula 39 - switch case
 ```java
-switch (expressão) {
+switch (var1) {
 case valor1:
 	cmd1;
 	cmd2;
@@ -409,7 +410,8 @@ Usado para programar interface de rede e programação baixo nível.
 Declaração de vetor:
 
 ```java
-	String[] vect;
+	String[] vect;	// declaração simples de vetor String.
+	String[] vect = sc.nextLine().split(" ");	// Cria um vetor a partir do que for digitado na linha usando " " como separador.
 ````
 
 ### Aula 60 - Comentários
@@ -767,6 +769,20 @@ Date d1 = sdf1.parse("25/06/2018");							// Converte a data 25/06/2018 em objet
 Date d2 = sdf2.format(d1)									// Muda a formatação da data em d1 armazenando em d2
 ```
 
+Para saber a diferença de dias entre datas, o mais natural para a plataforma é manter essa conta em Milisegundos.
+
+```java
+	// Dica na aula 142
+
+	public long exemplo() {	//declaração de método exemplo
+		long diff = dataInicio.getTime() - dataFim.getTime();	// guarda a diferença entre data inicio e data final em milisegundos
+		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);	// converte essa diferença em milisegundos em unidade de dias
+	}
+
+	// Dica na aula 143
+	if (dataFim.after(dataInicio)) Sistem.out.print("Confirmado! Data inicio é de fato anterior a data fim");
+```
+
 ### Aula 103 - Calendar
 
 Objeto que aloca informação data, permitindo operações como adicionar ou remover horas/meses/segundos/dias/etc...
@@ -829,6 +845,7 @@ comandos no git bash:
 | ------- | ------ |
 | git init | inicia o controle de versão no diretório |
 | git remote add origin "URL_RepositórioGithub.git" | Referencia URL_RepositórioGithub como fonte/destino de repositório online |
+| git pull origin master | Deveria puxar as referências do projeto, __mas pra mim não funcionou__ |
 | git clone URL_RepositórioGithub | Copia as informações do diretório URL_RepositórioGithub para o seu repositório |
 | git pull | Traz as informações do repositório online para o repositório local |
 | git status | Verifica como estão os arquivos do diretório em relação ao controle de versão |
@@ -887,4 +904,173 @@ OrderStatus os1 = OrderStatus.valueOf("DELIVERED");
 	|____________________|*/
 ```
 
-Edição ESS
+### Aula 120 - StringBuilder
+
+Objeto para auxiliar na criação de strings longas
+
+```java
+
+```
+
+### Aula 125 - Herança, Aula 127 Sobreposição, Super e @Override e Aula 128 - Classes e métodos final
+Lembrando: para declarar variáveis de Classes que serão herdadas, usar __protected__.   
+```java
+// o uso de extends para associação de Herança da Classe Pai para classe filha
+public class final NomeClasseFilha extends NomeClassePai {
+	// Obs.: final indica que a classe não possui herdeiros, sendo instancia final
+
+	// Declaração de construtor referênciando classe pai
+	public NomeClasseFilha() {
+		super();
+	}
+
+	// @Override indica ao compilador de que se trata de uma socbreposição
+	@Override
+	// Declaração do método
+	public final String metodo() {
+		// Obs.: final indica que o método seja sobreposto.
+
+		// Ao usar o método pai, inserir antes super.
+		return super.metodo();
+	}
+}
+```
+
+### Aula 126 - Upcasting e Downcasting
+
+```java
+// Upcasting (Classe pai recebe os dados de uma classe filha)
+ClassePai ObjetoClassePai = new ClasseFilha();
+
+// Downcasting (Classe filha recebe os dados de uma classe pai - nova classe ganha poder)
+ClasseFilha ObjetoClasseFilha = (ClasseFilha) ObjetoClassePai;
+```
+
+### Aula 129 - Polimorfismo
+
+```java
+// Um objeto da classe pai pode guardar objetos de classes filhas diferentes.
+
+Lista<ClassePai> lista = new Arraylist<>();
+
+lista.add(ClasseFilha1);
+lista.add(ClasseFilha2);
+```
+
+### Aula 132 e 133 - Classes e Metodos abstratos
+
+```java
+public abstract class NomeClassePai {	//Classe pai declarada como abstrata, ou seja:
+	// não pode existir objeto instanciado como Classe pai, esta apenas serve de referência para as classes filhas.
+
+protected String var1;	// declaração de variável protegida mas que pode ser acessada pelas classes filhas
+
+public abstract double metodo;	// declaração de metodo abstrato
+	// desta forma cada objeto da classe filha pode especificar seu método
+	// e o compilador sabe que o metodo abstrato da classe pai absrata deve ser sobrescrito
+}
+```
+
+Obs.: A notação em UML para uma classe abstrata ou método abstrato é seu nome em _itálico_.
+
+### Aula 138 - Exceções
+
+[Documentação](https://docs.oracle.com/javase/10/docs/api/java/lang/package-tree.html)
+
+### Aula 139 - Estrutura try-catch, Aula 140 - stack trace e Aula 141 - Finally
+
+```java
+try { 
+	// Tenta executar o código entre chaves
+}
+catch (ExceptionType e) {	// Pega caso encontre a excessão
+	// executa o código entre chaves
+}
+catch (ExceptionType e) {
+	e.printStackTrace();	// Mostra na tela de execução o tipo de excessão e a pilha de chamada dos métodos
+
+}
+catch (ExceptionType e){
+
+}
+finally {
+	// Executa o código entre chaves independente de ter ocorrido uma excessão ou não
+}
+```
+
+### Aula 142 - Criando exceções personalizadas
+
+Sugestão de criação do pacote model:
+
+__MODEL__
+	|_____________ENTITIES
+	|
+	|_____________ENUMS
+	|
+	|_____________EXCEPTION
+	|
+	|_____________SERVICES
+
+### Aula 145 - Solução boa no tratamento de exceções
+
+[GitHub](https://github.com/Dioguitos/exceptions1-java)
+
+Responsabilidades:
+- Excessões:
+	Defina uma classe como excessões de dominio **(DomainException)**, herdada da classe RuntimeException para conseguir atribuir excessões prórias dentro do seu código.
+- Suas Classes:
+	É possível criar nas usas classes através do comando **throw new** uma nova excessão, ou seja, descubra as condições que podem travar seu código, especifique-as e retorne uma excessão de dominio caso ocorra.
+- Seu Código:
+	Use o recurso **try {} catch (exceprion e) {}** para inspecionar o código e identificar caso ocorra alguma excessão de dominio (ou qualquer outra).
+
+#### Exemplo da Classe DomainExeption
+
+```java
+// nova classe DomainException
+package model.exceptions;	//localilação do pacote
+
+public class DomainException extends RuntimeException {	// Classe publica, herdada de RuntimeExeption
+	private static final long serialVersionUID = 1L;	// Pra quê, não sei, só sei que é assim...
+	
+	public DomainException(String msg) {	// Construtor, já permitindo uma mensagem em string
+		super(msg);
+	}
+}
+
+```
+
+#### Exemplo de exceção de dominio aplicada na classe
+
+```java
+// Exemplo de aplicação, o importante aqui é o uso de throw new DomainExceprion
+
+public void withdraw(Double amount) {	// metodo qualquer
+		if (amount > withdrawLimit) {	// teste de condição indesejada
+			throw new DomainException("The amount exceeds withdraw limit");	// sintaxe de retorno da excessão usando throw new
+		}	// a construção de Domain pede um String como mensagem da excessão
+		if (amount > balance) {
+			throw new DomainException("Not enough balance");	// é possível retornar a mesma excessão mais de uma vez
+		}	// inclusive com mensagens diferentes
+		else {
+			balance -= amount;	// somente após as validações sendo negativas (sem condições indesejadas) o código é executado.
+		}
+	}
+
+```
+
+#### Exemplo de exceção de dominio aplicada na classe
+
+```java
+		try {
+			// Suas linhas de código;
+		}
+		catch (DomainException e){	// caso encontre algum DomainException dentro de try, suspende-se e imprime a mensagem.
+			System.out.println("Error: " + e.getMessage());
+		}
+		catch (RuntimeException e){	// condição complementar para os erros de execução não planejados.
+			System.out.println("Inexpected Error");
+		}
+		finally {
+			// tarefas que necessitam ser executadas independente do código dar certo ou não;
+		}
+```

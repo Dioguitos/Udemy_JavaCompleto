@@ -1,5 +1,8 @@
 package aplication;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import entities.Account;
 import entities.BusinessAccount;
 import entities.SavingsAccount;
@@ -7,19 +10,44 @@ import entities.SavingsAccount;
 public class Program {
 
 	public static void main(String[] args) {
-		Account acc = new Account(1001, "Alex", 0.0);
+		
+		List<Account> list =new ArrayList<>();
+		list.add(new SavingsAccount(1001, "Alex", 500.00, 0.01));
+		list.add(new BusinessAccount(1002, "Maria", 1000.00, 400.0));
+		list.add(new SavingsAccount(1004, "Bob", 300.00, 0.01));
+		list.add(new BusinessAccount(1005, "Anna", 500.00, 500.0));
+		
+		double sum = 0.0;
+		for (Account a : list) {
+			sum += a.getBalance();
+		}
+		
+		System.out.printf("Total balance: %.2f%n", sum);
+		
+		for (Account a : list) {
+			a.deposit(10.0);
+		}
+		
+		for (Account a : list) {
+			System.out.printf("Balance of %s: $ %.2f%n", a.getHolder() , a.getBalance());
+		}
+
+		/*Account acc = new Account(1001, "Alex", 0.0);
 		Account bacc = new BusinessAccount(1002, "Maria", 0.0, 500.0);
 		
 		//Upcasting
 		
-		Account acc1 = bacc;
+//		Account acc1 = bacc;
 		Account acc2 = new BusinessAccount(1003, "Bob", 0.0, 200.0);
 		Account acc3 = new SavingsAccount(1004, "Anna", 0.0, 0.01);
+		
+		
 		
 		//Downcast
 		
 		BusinessAccount acc4 = (BusinessAccount) acc2;
 		acc4.loan(100.0);  
+		System.out.println(acc4.getLoanLimit());
 		
 		// BusinessAccount acc5 = (BusinessAccount) acc3;
 		
@@ -34,7 +62,9 @@ public class Program {
 			SavingsAccount acc5 = (SavingsAccount) acc3;
 			acc5.updateBalance();
 			System.out.println("Update!");
-		}
+		
+		
+		}*/
 	}
 
 }
